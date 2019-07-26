@@ -1,0 +1,3 @@
+[submodule "lib/DS3231"]
+	path = lib/DS3231
+	url = https://github.com/fabien-gigante/DS3231.git
