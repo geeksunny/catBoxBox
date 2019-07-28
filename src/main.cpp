@@ -1,16 +1,19 @@
 #include <Arduino.h>
+#include "Clock.h"
 
 #define LED_ON(Pin)   digitalWrite(Pin, HIGH)
 #define LED_OFF(Pin)  digitalWrite(Pin, LOW)
 
 // Uncomment to enable debug output via Serial console.
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #define PIN_BZR     8
 #define PIN_BTN     9
 #define PIN_LED_GRN 12
 #define PIN_LED_YLW 11
 #define PIN_LED_RED 10
+
+catbox::Clock clock;
 
 boolean buttonPressed();
 void playTest();
@@ -30,17 +33,24 @@ void setup() {
 
   // Setting input pins
   pinMode(PIN_BTN, INPUT_PULLUP);
+
+  // Setting default value to clock for debug purposes
+  clock.set("1907276225200"); // 2019 July 27 Saturday(?) 10:52:00 PM
 }
 
 void loop() {
-  boolean pressed = buttonPressed();
 #ifdef DEBUG_MODE
-  Serial.print("Button pressed: ");
-  Serial.println(pressed ? "YES" : "NO");
+  clock.print(Serial);
+  delay(1000);
 #endif
-  if (pressed) {
-    playTest();
-  }
+//  boolean pressed = buttonPressed();
+//#ifdef DEBUG_MODE
+//  Serial.print("Button pressed: ");
+//  Serial.println(pressed ? "YES" : "NO");
+//#endif
+//  if (pressed) {
+//    playTest();
+//  }
 }
 
 boolean buttonPressed() {
