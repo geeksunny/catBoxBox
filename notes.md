@@ -10,4 +10,20 @@
 
 ### LEDs
 
-150 ohm resistors
+Green LED
+* 150 ohm resistor
+
+Yellow LED
+* 100 ohm resistor
+
+Red LED
+* 100 ohm resistor
+
+### DIP Switches
+
+8 position DIP switch
+* 74HC165 Shift Register
+* 8x 10k ohm resistors
+
+1 position DIP switch
+* Digital input
