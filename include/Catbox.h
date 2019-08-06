@@ -3,7 +3,7 @@
 
 #include "ShiftRegister.hpp"
 #include "Clock.h"
-#include "Sleeper.hpp"
+#include "Sleeper.h"
 
 #define LED_ON(Pin)           digitalWrite(Pin, HIGH)
 #define LED_OFF(Pin)          digitalWrite(Pin, LOW)
@@ -48,7 +48,7 @@ class Catbox {
   Buzzer buzzer_ = Buzzer(PIN_BUZZER);
   Clock clock_;
   Input74HC165<8> dipSwitches_ = Input74HC165<8>(PIN_74HC165_DATA, PIN_74HC165_CLK, PIN_74HC165_LATCH);
-  Sleeper<2> sleeper_;
+  Sleeper sleeper_;
 
  public:
   Catbox() = default;
