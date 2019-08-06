@@ -2,6 +2,7 @@
 #define CATBOXBOX_INCLUDE_CATBOX_H_
 
 #include "ShiftRegister.hpp"
+#include "Buzzer.h"
 #include "Clock.h"
 #include "Sleeper.h"
 
@@ -27,18 +28,6 @@
 //  Nano's interrupts: 2, 3
 
 namespace catbox {
-
-class Buzzer {
-  bool enabled_ = false;
-  bool loudMode_ = false;
-  uint8_t pin_;
- public:
-  Buzzer(uint8_t pin);
-  void enable();
-  void disable();
-  void setLoudMode(bool enabled);
- private:
-};
 
 class Catbox {
 
