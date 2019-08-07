@@ -1,8 +1,5 @@
 #include <Arduino.h>
 
-// Uncomment to enable debug output via Serial console.
-#define DEBUG_MODE
-
 #include "Catbox.h"
 
 catbox::Catbox box;

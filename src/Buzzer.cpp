@@ -1,3 +1,4 @@
+#include "Configuration.h"
 #include "Buzzer.h"
 
 namespace catbox {
