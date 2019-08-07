@@ -7,7 +7,7 @@ namespace catbox {
 // Class : Buzzer //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
-Buzzer::Buzzer(const uint8_t pin) : pin_(pin) {
+Buzzer::Buzzer(const uint8_t pin) : enabled_(false), loudMode_(false), pin_(pin), pattern_(BuzzerPattern::Tone) {
   //
 }
 

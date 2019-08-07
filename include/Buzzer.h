@@ -22,10 +22,10 @@ enum class BuzzerPattern {
 };
 
 class Buzzer {
-  bool enabled_ = false;
-  bool loudMode_ = false;
+  bool enabled_;
+  bool loudMode_;
   uint8_t pin_;
-  BuzzerPattern pattern_ = BuzzerPattern::Tone;
+  BuzzerPattern pattern_;
  public:
   explicit Buzzer(uint8_t pin);
   void enable();

@@ -2,7 +2,6 @@
 #define CATBOXBOX_INCLUDE_SHIFTREGISTER_HPP_
 
 #include <Arduino.h>
-#include <stdint.h>
 
 #define CHIP_INPUT_COUNT 8
 

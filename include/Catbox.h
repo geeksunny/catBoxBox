@@ -1,9 +1,9 @@
 #ifndef CATBOXBOX_INCLUDE_CATBOX_H_
 #define CATBOXBOX_INCLUDE_CATBOX_H_
 
-#include "ShiftRegister.hpp"
 #include "Buzzer.h"
 #include "Clock.h"
+#include "ShiftRegister.hpp"
 #include "Sleeper.h"
 
 namespace catbox {
