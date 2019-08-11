@@ -1,6 +1,8 @@
 #include "Clock.h"
 #include <Wire.h>
 
+#define TIME_STR_LEN 13
+
 namespace catbox {
 
 Clock::Clock() {
@@ -25,9 +27,16 @@ void Clock::print(Stream &stream) {
   stream.println(clock_.getSecond(), DEC);
 }
 
-void Clock::set(const char *dateStr) {
+bool Clock::set(const char *dateStr) {
   // dateStr format: YYMMDDwHHMMSS
-  // TODO: data validation checks on dateStr contents?
+  for (int i = 0; i < TIME_STR_LEN; ++i) {
+    if (!isdigit(dateStr[i])) {
+      // Invalid input; non-digit character found
+      return false;
+    }
+  }
+  // TODO: Set 12/24hr mode here.
+  //  Should 12 or 24 be used? does it matter?
   byte b1, b2;
   // Year
   b1 = (byte) dateStr[0] - 48;
@@ -55,13 +64,54 @@ void Clock::set(const char *dateStr) {
   b1 = (byte) dateStr[11] - 48;
   b2 = (byte) dateStr[12] - 48;
   clock_.setSecond((b1 * 10) + b2);
+  // Clock set successful
+  return true;
 }
 
 bool Clock::setFrom(Stream &stream) {
-  // todo: read dateStr from stream
-  //  send it to set(dateStr)
-  //  return true on success, false on error.
+  // Ignore everything until digit is received.
+  //  Error if invalid character is found after first digit, before expected length
+  if (stream.available()) {
+    // TODO: Clean up this logic to be clearer / easier to follow
+    char buf[TIME_STR_LEN];
+    int i = 0;
+    bool started = false;
+    while (stream.available()) {
+      if (started) {
+        buf[i] = stream.read();
+        if (!isdigit(buf[i++])) {
+          // invalid input; non-digit character found
+          return false;
+        }
+        // Do we have all the data we're looking for?
+        if (i == TIME_STR_LEN) {
+          // Discard remaining input data
+          while (stream.available()) {
+            stream.read();
+          }
+          // Set clock with buffer contents
+          return set(buf);
+        }
+      } else {
+        // Ignore non-digit characters
+        if (isdigit(stream.peek())) {
+          started = true;
+        } else {
+          stream.read();
+        }
+      }
+    }
+  }
   return false;
+}
+
+bool Clock::setFrom(Stream &stream, unsigned long timeoutMillis) {
+  // TODO: Keep time with millis(), do not rely on stream.available()
+  return false;
+}
+
+uint32_t Clock::now() {
+  return RTClib::now().unixtime();
 }
 
 }

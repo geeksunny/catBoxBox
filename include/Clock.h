@@ -10,9 +10,10 @@ class Clock {
  public:
   Clock();
   void print(Stream &stream);
-  void set(const char *dateStr);
+  bool set(const char *dateStr);
   bool setFrom(Stream &stream);
-  // todo: get()
+  bool setFrom(Stream &stream, unsigned long timeoutMillis);
+  uint32_t now();
 };
 
 }
