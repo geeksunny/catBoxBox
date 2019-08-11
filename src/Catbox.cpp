@@ -25,25 +25,17 @@ void Catbox::setup() {
 
   // Setting input pins
   pinMode(PIN_BTN_RESET_TIMER, INPUT_PULLUP);
-  pinMode(PIN_DIP_TIME_SET_MODE, INPUT_PULLUP);
+  pinMode(PIN_DIP_EXTRA_SWITCH, INPUT_PULLUP);
 
   // Read in values from DIP switches
   readDipSwitches();
 
-  if (timeSetMode_) {
-    timeSetLoop();
-  }
+  // Set clock from Serial if data available
+  setClockFromSerial();
 
 #ifdef DEBUG_MODE
-  // Initialize serial console
-  if (!timeSetMode_) {  // Serial.begin() has already been called if timeSetMode_ is TRUE
-    Serial.begin(9600);
-  }
   Serial.println("Serial console started.");
 #endif //DEBUG_MODE
-
-  // TODO: Check if clock has time set, set default value (compilation time via macro?) if none set
-  //  - Breadboard a fresh RTC and see what default value is, if any.
 }
 
 void Catbox::loop() {
@@ -105,24 +97,29 @@ void Catbox::readDipSwitches() {
     // DIP Pin 8: Buzzer.loudMode_
     buzzer_.setLoudMode(dipSwitches_.getValue(7));
   }
-  // Digital Pin PIN_DIP_TIME_SET_MODE: timeSetMode_
-  timeSetMode_ = IS_INPUT_ACTIVE(PIN_DIP_TIME_SET_MODE);
+  // Digital Pin PIN_DIP_EXTRA_SWITCH: extraDipSwitch_
+  extraDipSwitch_ = IS_INPUT_ACTIVE(PIN_DIP_EXTRA_SWITCH);
 }
 
-void Catbox::timeSetLoop() {
+void Catbox::setClockFromSerial() {
   // TODO: optional timeout value for waiting on time data input
   Serial.begin(9600);
-  while (!Serial.available()) {
-    // TODO: Handle blinking/pulsing LEDs within the loop
+  while (!Serial) {
+    // Waiting for serial ready
   }
-  // TODO: start LED pattern for reading from serial
-  if (!clock_.setFrom(Serial)) {
-    // Failed to set clock from Serial input.
-    // TODO: Should we halt on error here?
-    //  Use LEDs to display error
-    //  Use buzzer to sound error?
+  // Pause before reading from Serial
+  delay(1000);
+  if (Serial.available()) {
+    // TODO: Signal start of time set from serial
+    bool timeSet = clock_.setFrom(Serial);
+    if (timeSet) {
+      // TODO: End signal, success
+    } else {
+      // TODO: End signal, error
+      // TODO: Invalid data received. Halt ??
+    }
   }
-  // TODO: Turn off any LEDs used in loop.
+  // TODO: Check for valid time data from clock_, half on invalid
 }
 
 }

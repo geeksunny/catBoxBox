@@ -9,7 +9,7 @@
 ///// Catbox.cpp /////
 // Input
 #define PIN_BTN_RESET_TIMER     12
-#define PIN_DIP_TIME_SET_MODE   7
+#define PIN_DIP_EXTRA_SWITCH    7
 // Output
 #define PIN_BUZZER              10
 // PWM Output

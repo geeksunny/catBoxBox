@@ -11,7 +11,7 @@ namespace catbox {
 class Catbox {
 
   uint8_t timeout_ = 0;
-  bool timeSetMode_ = false;
+  bool extraDipSwitch_ = false;
 
   Buzzer buzzer_;
   Clock clock_;
@@ -26,7 +26,7 @@ class Catbox {
 
  private:
   void readDipSwitches();
-  void timeSetLoop();
+  void setClockFromSerial();
 
 };
 

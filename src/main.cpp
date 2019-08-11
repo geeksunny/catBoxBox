@@ -11,7 +11,3 @@ void setup() {
 void loop() {
   box.loop();
 }
-
-void readShiftRegisterInput() {
-
-}
