@@ -1,7 +1,14 @@
 #include "Clock.h"
 #include <Wire.h>
 
-#define TIME_STR_LEN 13
+#define TIME_STR_LEN        13
+
+#define MINUTE_IN_SECONDS   60
+#define HOUR_IN_SECONDS     3600
+#define DAY_IN_SECONDS      86400
+#define WEEK_IN_SECONDS     604800
+#define MONTH_IN_SECONDS    2629743
+#define YEAR_IN_SECONDS     31556926
 
 namespace catbox {
 
@@ -25,6 +32,13 @@ void Clock::print(Stream &stream) {
   stream.print(clock_.getMinute(), DEC);
   stream.print(":");
   stream.println(clock_.getSecond(), DEC);
+}
+
+bool Clock::isTimeSet() {
+  // Default time values are zero. Finding a zero value in most fields should indicate an unset clock.
+  // Note: This will evaluate to TRUE after the first 24 hours of operation.
+  bool Century;
+  return ((int) clock_.getYear() != 0) && ((int) clock_.getMonth(Century) != 0) && ((int) clock_.getDate() != 0);
 }
 
 bool Clock::set(const char *dateStr) {
@@ -112,6 +126,50 @@ bool Clock::setFrom(Stream &stream, unsigned long timeoutMillis) {
 
 uint32_t Clock::now() {
   return RTClib::now().unixtime();
+}
+
+uint32_t Clock::unixtimeSince(const uint32_t unixtime) {
+  return now() - unixtime;
+}
+
+uint32_t Clock::secondsSince(uint32_t unixtime) {
+  return unixtimeSince(unixtime);
+}
+
+uint32_t Clock::minutesSince(uint32_t unixtime) {
+  uint32_t since = unixtimeSince(unixtime);
+  uint32_t minutes = since / MINUTE_IN_SECONDS;
+  return minutes;
+}
+
+uint32_t Clock::hoursSince(uint32_t unixtime) {
+  uint32_t since = unixtimeSince(unixtime);
+  uint32_t hours = since / HOUR_IN_SECONDS;
+  return hours;
+}
+
+uint32_t Clock::daysSince(uint32_t unixtime) {
+  uint32_t since = unixtimeSince(unixtime);
+  uint32_t days = since / DAY_IN_SECONDS;
+  return days;
+}
+
+uint32_t Clock::weeksSince(uint32_t unixtime) {
+  uint32_t since = unixtimeSince(unixtime);
+  uint32_t weeks = since / WEEK_IN_SECONDS;
+  return weeks;
+}
+
+uint32_t Clock::monthsSince(uint32_t unixtime) {
+  uint32_t since = unixtimeSince(unixtime);
+  uint32_t months = since / MONTH_IN_SECONDS;
+  return months;
+}
+
+uint32_t Clock::yearsSince(uint32_t unixtime) {
+  uint32_t since = unixtimeSince(unixtime);
+  uint32_t years = since / YEAR_IN_SECONDS;
+  return years;
 }
 
 }
